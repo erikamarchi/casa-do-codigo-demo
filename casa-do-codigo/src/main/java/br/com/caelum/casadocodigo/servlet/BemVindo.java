@@ -1,4 +1,4 @@
-package br.com.caelum.servlet;
+package br.com.caelum.casadocodigo.servlet;
 
 import java.io.IOException;
 import java.util.Date;
