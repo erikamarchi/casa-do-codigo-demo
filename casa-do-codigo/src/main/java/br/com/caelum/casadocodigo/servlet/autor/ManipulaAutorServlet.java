@@ -15,16 +15,10 @@ import br.com.caelum.casadocodigo.model.Autor;
 import br.com.caelum.casadocodigo.servlet.PathResolver;
 
 @WebServlet("/autores")
-public class AutorServlet extends HttpServlet{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class ManipulaAutorServlet extends HttpServlet{
+	
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Connection connection = (Connection) request.getAttribute("conexao");
 		
 		AutorDao autorDao = new AutorDao(connection);
@@ -34,4 +28,14 @@ public class AutorServlet extends HttpServlet{
 		
 		request.getRequestDispatcher(PathResolver.resolveName("autor/lista")).forward(request, response);		
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Connection connection = (Connection) request.getAttribute("conexao");
+
+		AutorDao autorDao = new AutorDao(connection);
+		autorDao.adiciona(AutorMapper.mapper(request));		
+		response.sendRedirect("/autores");
+	}
+
 }
