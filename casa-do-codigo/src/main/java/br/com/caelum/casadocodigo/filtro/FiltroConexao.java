@@ -10,9 +10,11 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
 import br.com.caelum.casadocodigo.ConnectionFactory;
 
+@WebFilter("/*")
 public class FiltroConexao implements Filter {
 
 	@Override
@@ -21,7 +23,6 @@ public class FiltroConexao implements Filter {
 		// abre uma conexão
 		try {
 			Connection connection = new ConnectionFactory().getConnection();
-
 			request.setAttribute("conexao", connection);
 
 			chain.doFilter(request, response);
