@@ -70,7 +70,7 @@ public class AutorDao {
 	public Autor getAutor(long id) {
 		try {
 			Autor autor = null;
-			String sql = "select * from autors where id=?";
+			String sql = "select * from autores where id=?";
 
 			PreparedStatement stmt = this.connection.prepareStatement(sql);
 			stmt.setLong(1, id);
