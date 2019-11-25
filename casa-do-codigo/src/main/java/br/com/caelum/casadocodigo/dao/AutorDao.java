@@ -70,7 +70,8 @@ public class AutorDao {
 
 	public Optional<Autor> getAutor(long id) {
 		try {
-			Optional<Autor> autor;
+			Optional<Autor> autor = Optional.empty();
+			
 			String sql = "select * from autores where id=?";
 
 			PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -80,10 +81,7 @@ public class AutorDao {
 
 			if (rs.next()) {
 				autor = Optional.of(populaAutor(rs));
-			}else {
-				autor = Optional.empty();
-			}
-			
+			}			
 			
 			rs.close();
 			stmt.close();
