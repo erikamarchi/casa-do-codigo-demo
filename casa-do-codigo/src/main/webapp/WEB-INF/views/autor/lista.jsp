@@ -27,7 +27,7 @@
 					<tr id="autor_${autor.id}">
 						<td>${autor.nome}</td>
 						<td>${autor.resumo}</td>
-						<td><a href="/autores/form?id=${autor.id}" class="btn btn-primary">Editar</a>
+						<td><a href="/autores/${autor.id}" class="btn btn-primary">Editar</a>
 						<td><a onclick="excluir(${autor.id})" class="btn btn-danger">Excluir</a>
 						</td>
 					</tr>
@@ -35,14 +35,14 @@
 			</tbody>
 		</table>
 		<div class="col-md-6 col-md-offset-3">
-			<a href="/autores/form" class="btn btn-block btn-info">Novo</a>
+			<a href="/autores/new" class="btn btn-block btn-info">Novo</a>
 		</div>
 	</div>
 	<script>
             function excluir(id) {
                 var url = window.location.href;
                 $.ajax({
-                    url:"/autores/autor?id=" + id,
+                    url:"/autores/" + id,
                     type: 'DELETE',
                     success: function (result) {                        
                         $("#autor_"+id).remove();
