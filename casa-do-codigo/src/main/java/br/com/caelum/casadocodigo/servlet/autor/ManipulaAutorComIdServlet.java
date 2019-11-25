@@ -35,7 +35,7 @@ public class ManipulaAutorComIdServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Connection connection = (Connection) request.getAttribute("conexao");
 
@@ -45,6 +45,7 @@ public class ManipulaAutorComIdServlet extends HttpServlet {
 
 		autorDao.atualiza(autor);
 
+		System.out.println("vai pro autores");
 		response.sendRedirect("/autores");
 	}
 

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -15,7 +15,7 @@
 			<form action="/autores" method="post">
 		</c:if>
 		<c:if test="${autor != null}">
-			<form action="/autores/autor?id=${autor.id}" method="put">
+			<form action="/autores/autor?id=${autor.id}" method="post">			
 		</c:if>
 		<div class="form-group">
 			<label for="Nome">Nome:</label> 
