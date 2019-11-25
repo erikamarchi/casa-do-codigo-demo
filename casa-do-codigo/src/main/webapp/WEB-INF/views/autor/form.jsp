@@ -15,7 +15,7 @@
 			<form action="/autores" method="post">
 		</c:if>
 		<c:if test="${autor != null}">
-			<form action="/autores/autor?id=${autor.id}" method="post">			
+			<form action="/autores/${autor.id}" method="post">			
 		</c:if>
 		<div class="form-group">
 			<label for="Nome">Nome:</label> 

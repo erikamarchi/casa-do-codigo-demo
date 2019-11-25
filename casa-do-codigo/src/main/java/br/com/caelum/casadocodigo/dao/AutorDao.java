@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.caelum.casadocodigo.model.Autor;
 
 public class AutorDao {
-
+	
 	private Connection connection;
 
 	public AutorDao(Connection connection) {
@@ -67,9 +68,9 @@ public class AutorDao {
 		}
 	}
 
-	public Autor getAutor(long id) {
+	public Optional<Autor> getAutor(long id) {
 		try {
-			Autor autor = null;
+			Optional<Autor> autor;
 			String sql = "select * from autores where id=?";
 
 			PreparedStatement stmt = this.connection.prepareStatement(sql);
@@ -77,10 +78,13 @@ public class AutorDao {
 
 			ResultSet rs = stmt.executeQuery();
 
-			while (rs.next()) {
-				autor = populaAutor(rs);
+			if (rs.next()) {
+				autor = Optional.of(populaAutor(rs));
+			}else {
+				autor = Optional.empty();
 			}
-
+			
+			
 			rs.close();
 			stmt.close();
 
