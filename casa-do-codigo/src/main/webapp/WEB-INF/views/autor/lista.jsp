@@ -52,7 +52,7 @@
 			</tbody>
 		</table>
 		<div class="justify-content-center	">
-			<a href="/autores/new" class="btn btn-block btn-info">Novo</a>
+			<a href="/autores/new" class="btn btn-block btn-success">Novo</a>
 		</div>
 	</div>
 	<script>
