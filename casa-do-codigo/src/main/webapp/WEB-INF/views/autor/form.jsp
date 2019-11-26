@@ -40,7 +40,7 @@
 		<c:if test="${autor != null}">
 			<form action="/autores/${autor.id}" method="post" class="justify-content-center needs-validation" novalidate>
 		</c:if>
-		<div class="form-group">
+		<div class="form-group text-left">
 			<label for="Nome">Nome:</label> 
 			<input id="nome" type="text" name="nome" class="form-control" required value="${autor.nome}">
 			<div class="invalid-feedback">
@@ -48,7 +48,7 @@
 		    </div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group text-left">
 			<label for="resumo">Resumo:</label>
 			<textarea class="form-control rounded-0" id="resumo" rows="15" name="resumo" required>${autor.resumo}</textarea>
 			<div class="invalid-feedback">
