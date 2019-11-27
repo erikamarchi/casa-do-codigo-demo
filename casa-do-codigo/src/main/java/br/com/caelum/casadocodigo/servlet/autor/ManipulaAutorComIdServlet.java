@@ -56,4 +56,5 @@ public class ManipulaAutorComIdServlet extends HttpServlet {
 		request.getRequestDispatcher(PathResolver.resolveName("autor/form")).forward(request, response);
 	}
 
+	
 }
