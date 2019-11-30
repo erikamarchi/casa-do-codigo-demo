@@ -111,4 +111,28 @@ public class AutorDao {
 		return autor;
 	}
 
+	public Optional<Autor> getPorNome(String nome) {
+		try {
+			Optional<Autor> autor = Optional.empty();
+			
+			String sql = "select * from autores where nome=?";
+
+			PreparedStatement stmt = this.connection.prepareStatement(sql);
+			stmt.setString(1, nome);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				autor = Optional.of(populaAutor(rs));
+			}			
+			
+			rs.close();
+			stmt.close();
+
+			return autor;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

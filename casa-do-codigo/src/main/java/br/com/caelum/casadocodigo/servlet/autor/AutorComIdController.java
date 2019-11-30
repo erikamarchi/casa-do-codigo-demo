@@ -2,7 +2,7 @@ package br.com.caelum.casadocodigo.servlet.autor;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +14,24 @@ import br.com.caelum.casadocodigo.dao.AutorDao;
 import br.com.caelum.casadocodigo.model.Autor;
 import br.com.caelum.casadocodigo.servlet.PathResolver;
 
-@WebServlet("/autores")
-public class ManipulaAutorServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/autores/*")
+public class AutorComIdController extends HttpServlet {
+
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Connection connection = (Connection) request.getAttribute("conexao");
+
+		AutorDao autorDao = new AutorDao(connection);
+
+		PathResolver.getIdFrom(request).flatMap(autorDao::getAutor).ifPresent(autorDao::exclui);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		new RegistroDoAutorHandler(request, response, (autorDao, autor) -> autorDao.atualiza(autor)).execute();
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -23,23 +39,10 @@ public class ManipulaAutorServlet extends HttpServlet {
 		Connection connection = (Connection) request.getAttribute("conexao");
 
 		AutorDao autorDao = new AutorDao(connection);
-		List<Autor> autores = autorDao.getLista();
+		PathResolver.getIdFrom(request).flatMap(autorDao::getAutor)
+				.ifPresent(autor -> request.setAttribute("autor", autor));
 
-		request.setAttribute("autores", autores);
-
-		request.getRequestDispatcher(PathResolver.resolveName("autor/lista")).forward(request, response);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		Connection connection = (Connection) request.getAttribute("conexao");
-
-		AutorDao autorDao = new AutorDao(connection);
-
-		autorDao.adiciona(AutorMapper.mapper(request));
-
-		response.sendRedirect("/autores");
+		request.getRequestDispatcher(PathResolver.resolveName("autor/form")).forward(request, response);
 	}
 
 }
