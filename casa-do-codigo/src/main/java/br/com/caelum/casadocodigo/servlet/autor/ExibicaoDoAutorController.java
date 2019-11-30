@@ -13,7 +13,7 @@ import br.com.caelum.casadocodigo.servlet.PathResolver;
 @WebServlet(
 		urlPatterns = "/autores/new"
 )
-public class ExibeFormAutorServlet extends HttpServlet {
+public class ExibicaoDoAutorController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
