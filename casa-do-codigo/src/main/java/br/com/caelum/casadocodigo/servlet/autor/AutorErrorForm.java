@@ -3,7 +3,6 @@ package br.com.caelum.casadocodigo.servlet.autor;
 import java.util.Optional;
 
 import br.com.caelum.casadocodigo.dao.AutorDao;
-import br.com.caelum.casadocodigo.model.Autor;
 
 public class AutorErrorForm {
 	
