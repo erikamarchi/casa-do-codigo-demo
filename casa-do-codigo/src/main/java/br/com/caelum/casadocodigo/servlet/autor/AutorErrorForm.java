@@ -2,7 +2,7 @@ package br.com.caelum.casadocodigo.servlet.autor;
 
 import java.util.Optional;
 
-import br.com.caelum.casadocodigo.dao.AutorDao;
+import br.com.caelum.casadocodigo.service.AutorService;
 
 public class AutorErrorForm {
 	
@@ -29,16 +29,13 @@ public class AutorErrorForm {
 			this.dto = dto;
 		}
 		
-		Optional<AutorErrorForm> valida(AutorDao autorDao) {
+		Optional<AutorErrorForm> valida(AutorService autorService) {
 			String erroNome;
 			if (dto.getNome() == null || dto.getNome().trim().isEmpty()) {
 				erroNome = "Ei, não esqueça o nome do autor :D";
 			} else {				
-				erroNome = autorDao
-						.getPorNome(dto.getNome())
-						.filter(a -> !a.getId().equals(dto.getId()))
-						.map(a -> "Já existe um autor com esse nome")
-						.orElse(null);
+				erroNome = autorService.temAutorComMesmoNome(dto.getNome(), dto.getId()) ? "Já existe um autor com esse nome" : null;
+						
 			}
 			
 			String erroResumo;
