@@ -23,13 +23,13 @@ public class AutorErrorForm {
 	}
 	
 	static class Validator {
-		private final AutorDto dto;
+		private final AutorService autorService;
 
-		public Validator(AutorDto dto) {
-			this.dto = dto;
+		public Validator(AutorService autorService) {
+			this.autorService = autorService;
 		}
 		
-		Optional<AutorErrorForm> valida(AutorService autorService) {
+		Optional<AutorErrorForm> valida(AutorDto dto) {
 			String erroNome;
 			if (dto.getNome() == null || dto.getNome().trim().isEmpty()) {
 				erroNome = "Ei, não esqueça o nome do autor :D";

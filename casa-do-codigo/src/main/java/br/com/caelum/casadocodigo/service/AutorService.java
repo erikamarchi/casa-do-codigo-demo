@@ -1,5 +1,8 @@
 package br.com.caelum.casadocodigo.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import br.com.caelum.casadocodigo.dao.AutorDao;
 import br.com.caelum.casadocodigo.model.Autor;
 
@@ -21,6 +24,18 @@ public class AutorService {
 	
 	public void adiciona(Autor autor) {
 		autorDao.adiciona(autor);
+	}
+
+	public List<Autor> buscaAutores() {		
+		return autorDao.getLista();
+	}
+	
+	public Optional<Autor> buscaAutor(Long id) {
+		return autorDao.getAutor(id);
+	}
+	
+	public void exclui(Autor autor) {
+		autorDao.exclui(autor);
 	}
 
 }
