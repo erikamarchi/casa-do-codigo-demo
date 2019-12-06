@@ -41,7 +41,10 @@ public class CategoriaController extends HttpServlet {
 		Optional<CategoriaError> categoriaErroOptional = validator.validaForm();
 
 		if (categoriaErroOptional.isPresent()) {			
-			CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());	
+			request.setAttribute("categoria", categoriaDto);
+			request.setAttribute("categoriaError", categoriaErroOptional.get());
+
+			request.getRequestDispatcher(PathResolver.resolveName("categoria/form")).forward(request, response);
 		} else {
 			Connection connection = (Connection) request.getAttribute("conexao");
 			CategoriaDao categoriaDao = new CategoriaDao(connection);
@@ -50,7 +53,10 @@ public class CategoriaController extends HttpServlet {
 			categoriaErroOptional = validator.validaRegrasDeCategoria(gerenciadorDeCategoria);
 			
 			if (categoriaErroOptional.isPresent()) {
-				CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());
+				request.setAttribute("categoria", categoriaDto);
+				request.setAttribute("categoriaError", categoriaErroOptional.get());
+
+				request.getRequestDispatcher(PathResolver.resolveName("categoria/form")).forward(request, response);
 			} else {
 				categoriaDao.adiciona(categoriaDto.toModel());
 
