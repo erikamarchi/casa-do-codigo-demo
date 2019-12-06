@@ -12,7 +12,7 @@
 				
 				<input id="nome" type="text" name="nome" class='form-control ${categoriaError == null ? "" : "is-invalid"}' value="${categoria.nome}">
 				<div class="invalid-feedback">
-			        ${categoriaError}
+			        ${categoriaError.erroNome}
 			    </div>
 			</div>	
 			

@@ -90,11 +90,11 @@ public class CategoriaDao {
 		}
 	}
 
-	public void exclui(Categoria categoria) {
+	public void exclui(Long id) {
 		String sql = "delete from categorias where id=?";
 		try {
 			PreparedStatement stmt = this.connection.prepareStatement(sql);
-			stmt.setLong(1, categoria.getId());
+			stmt.setLong(1, id);
 			stmt.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
