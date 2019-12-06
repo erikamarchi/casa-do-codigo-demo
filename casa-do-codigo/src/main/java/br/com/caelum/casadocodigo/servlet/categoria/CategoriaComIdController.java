@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.caelum.casadocodigo.dao.CategoriaDao;
 import br.com.caelum.casadocodigo.model.Categoria;
 import br.com.caelum.casadocodigo.servlet.PathResolver;
+import br.com.caelum.casadocodigo.servlet.categoria.CategoriaError.Validator;
+import br.com.caelum.casadocodigo.validacao.GerenciadorDeCategoria;
 
 @WebServlet(urlPatterns = "/categorias/*")
 public class CategoriaComIdController extends HttpServlet {
@@ -23,28 +25,34 @@ public class CategoriaComIdController extends HttpServlet {
 		Connection connection = (Connection) request.getAttribute("conexao");
 		CategoriaDao categoriaDao = new CategoriaDao(connection);
 
-		PathResolver.getIdFrom(request).flatMap(categoriaDao::getCategoria).ifPresent(categoriaDao::exclui);
+		PathResolver.getIdFrom(request).flatMap(categoriaDao::getCategoria)
+				.ifPresent(c -> categoriaDao.exclui(c.getId()));
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Connection connection = (Connection) request.getAttribute("conexao");
-		CategoriaDao categoriaDao = new CategoriaDao(connection);
-
 		CategoriaDto categoriaDto = new CategoriaDto(request);
-		
-		Optional<String> erroNome = CategoriaValidator.valida(categoriaDto, categoriaDao);
+		Validator validator = new Validator(categoriaDto);
 
-		if (erroNome.isPresent()) {			
-			request.setAttribute("categoria", categoriaDto);
-			request.setAttribute("categoriaError", erroNome.get());
+		Optional<CategoriaError> categoriaErroOptional = validator.validaForm();
 
-			request.getRequestDispatcher(PathResolver.resolveName("categoria/form")).forward(request, response);
-		} else {			
-			categoriaDao.atualiza(categoriaDto.toModel());
+		if (categoriaErroOptional.isPresent()) {			
+			CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());	
+		} else {
+			Connection connection = (Connection) request.getAttribute("conexao");
+			CategoriaDao categoriaDao = new CategoriaDao(connection);
 
-			response.sendRedirect("/categorias");
+			GerenciadorDeCategoria gerenciadorDeCategoria = new GerenciadorDeCategoria(categoriaDao);
+			categoriaErroOptional = validator.validaRegrasDeCategoria(gerenciadorDeCategoria);
+			
+			if (categoriaErroOptional.isPresent()) {
+				CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());
+			} else {
+				categoriaDao.atualiza(categoriaDto.toModel());
+
+				response.sendRedirect("/categorias");
+			}
 		}
 	}
 
@@ -57,10 +65,9 @@ public class CategoriaComIdController extends HttpServlet {
 		Long idAtual = PathResolver.getIdFrom(request).orElse(null);
 		if (idAtual != null) {
 			Optional<Categoria> categoria = categoriaDao.getCategoria(idAtual);
-			categoria.ifPresent(c -> 
-				
-				request.setAttribute("categoria", c)
-			);
+			categoria.ifPresent(c ->
+
+			request.setAttribute("categoria", c));
 
 		}
 
