@@ -25,27 +25,27 @@ public class CategoriaError {
 		}
 		
 		Optional<CategoriaError> validaForm() {
-			String erroNome = null;
-			
+			Optional<CategoriaError> erro = Optional.empty();
+						
 			if (Validacao.validaCampoEmBranco(dto.getNome())) {
-				erroNome = "Ei, não esquece de informar o nome da categoria ;-)";
+				erro = Optional.of(new CategoriaError("Ei, não esquece de informar o nome da categoria ;-)"));
 			} 			
 			
 			if (Validacao.validaLimiteDeCaractere(dto.getNome(), 30)) {
-				erroNome = "Esse nome está muito grande, escolha um que não ultrapasse 30 caracteres :)";
+				erro = Optional.of(new CategoriaError("Esse nome está muito grande, escolha um que não ultrapasse 30 caracteres :)"));
 			} 
 			
-			return erroNome == null ? Optional.empty(): Optional.of(new CategoriaError(erroNome));
+			return erro;
 		}
 		
 		Optional<CategoriaError> validaRegrasDeCategoria(GerenciadorDeCategoria gerenciadorDeCategoria){
-			String erroNome = null;
+			Optional<CategoriaError> erro = Optional.empty();
 			
 			if(gerenciadorDeCategoria.temCategoriaComMesmoNome(dto)) {
-				erroNome = "Já existe uma categoria com esse nome"; 
+				erro = Optional.of(new CategoriaError("Já existe uma categoria com esse nome")); 
 			}
 			
-			return erroNome == null ? Optional.empty(): Optional.of(new CategoriaError(erroNome));
+			return erro;
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class CategoriaComIdController extends HttpServlet {
 		CategoriaDao categoriaDao = new CategoriaDao(connection);
 
 		PathResolver.getIdFrom(request).flatMap(categoriaDao::getCategoria)
-				.ifPresent(c -> categoriaDao.exclui(c.getId()));
+				.ifPresent(categoria -> categoriaDao.exclui(categoria.getId()));
 	}
 
 	@Override
@@ -38,7 +38,10 @@ public class CategoriaComIdController extends HttpServlet {
 		Optional<CategoriaError> categoriaErroOptional = validator.validaForm();
 
 		if (categoriaErroOptional.isPresent()) {			
-			CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());	
+			request.setAttribute("categoria", categoriaDto);
+			request.setAttribute("categoriaError", categoriaErroOptional.get());
+
+			request.getRequestDispatcher(PathResolver.resolveName("categoria/form")).forward(request, response);
 		} else {
 			Connection connection = (Connection) request.getAttribute("conexao");
 			CategoriaDao categoriaDao = new CategoriaDao(connection);
@@ -47,7 +50,10 @@ public class CategoriaComIdController extends HttpServlet {
 			categoriaErroOptional = validator.validaRegrasDeCategoria(gerenciadorDeCategoria);
 			
 			if (categoriaErroOptional.isPresent()) {
-				CategoriaErrorHandler.onFail(request, response, categoriaDto, categoriaErroOptional.get());
+				request.setAttribute("categoria", categoriaDto);
+				request.setAttribute("categoriaError", categoriaErroOptional.get());
+
+				request.getRequestDispatcher(PathResolver.resolveName("categoria/form")).forward(request, response);
 			} else {
 				categoriaDao.atualiza(categoriaDto.toModel());
 
@@ -64,10 +70,8 @@ public class CategoriaComIdController extends HttpServlet {
 
 		Long idAtual = PathResolver.getIdFrom(request).orElse(null);
 		if (idAtual != null) {
-			Optional<Categoria> categoria = categoriaDao.getCategoria(idAtual);
-			categoria.ifPresent(c ->
-
-			request.setAttribute("categoria", c));
+			Optional<Categoria> categoriaPossivel = categoriaDao.getCategoria(idAtual);
+			categoriaPossivel.ifPresent(categoria -> request.setAttribute("categoria", categoria));
 
 		}
 
