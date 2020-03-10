@@ -127,8 +127,7 @@ public class CategoriaDao {
 	
 	private Categoria populaCategoria(ResultSet rs) throws SQLException {
 
-		Categoria categoria = new Categoria(rs.getString("nome"));
-		categoria.setId(rs.getLong("id"));
+		Categoria categoria = new Categoria(rs.getLong("id"), rs.getString("nome"));
 
 		return categoria;
 	}

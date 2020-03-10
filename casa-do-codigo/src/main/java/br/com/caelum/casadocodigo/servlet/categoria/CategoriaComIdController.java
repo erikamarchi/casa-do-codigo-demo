@@ -37,7 +37,7 @@ public class CategoriaComIdController extends HttpServlet {
 
 		Optional<CategoriaError> categoriaErroOptional = validator.validaForm();
 
-		if (categoriaErroOptional.isPresent()) {			
+		if (categoriaErroOptional.isPresent()) {
 			request.setAttribute("categoria", categoriaDto);
 			request.setAttribute("categoriaError", categoriaErroOptional.get());
 
@@ -48,7 +48,7 @@ public class CategoriaComIdController extends HttpServlet {
 
 			GerenciadorDeCategoria gerenciadorDeCategoria = new GerenciadorDeCategoria(categoriaDao);
 			categoriaErroOptional = validator.validaRegrasDeCategoria(gerenciadorDeCategoria);
-			
+
 			if (categoriaErroOptional.isPresent()) {
 				request.setAttribute("categoria", categoriaDto);
 				request.setAttribute("categoriaError", categoriaErroOptional.get());

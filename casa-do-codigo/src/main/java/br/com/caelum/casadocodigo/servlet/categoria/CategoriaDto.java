@@ -25,8 +25,7 @@ public class CategoriaDto {
 	}
 	
 	Categoria toModel() {
-		Categoria model = new Categoria(nome);
-		model.setId(id);
+		Categoria model = new Categoria(id, nome);
 		return model;
 	}
 

@@ -6,7 +6,8 @@ public class Autor {
 	private String nome;
 	private String resumo;
 	
-	public Autor(String nome, String resumo) {
+	public Autor(Long id, String nome, String resumo) {
+		this.id = id;
 		this.nome = nome;
 		this.resumo = resumo;
 	}
@@ -21,10 +22,6 @@ public class Autor {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}	
 	
 }

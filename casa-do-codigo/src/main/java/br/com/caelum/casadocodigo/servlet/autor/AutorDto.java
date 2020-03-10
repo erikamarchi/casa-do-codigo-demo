@@ -31,8 +31,7 @@ public class AutorDto {
 	}
 
 	Autor toModel() {
-		Autor model = new Autor(nome, resumo);
-		model.setId(id);
+		Autor model = new Autor(id, nome, resumo);
 		return model;
 	}
 }

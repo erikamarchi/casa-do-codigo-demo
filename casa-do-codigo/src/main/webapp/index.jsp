@@ -7,7 +7,7 @@
 	<jsp:body>
 		<h2 class="text-center">Seja bem-vindo :D</h2>
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Autores</h5>
@@ -16,12 +16,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-4">
 				<div class="card" >
 					<div class="card-body">
 						<h5 class="card-title">Categorias</h5>
 						<p class="card-text">Mostra todas as categorias da casa do código</p>
 						<a href="/categorias" class="btn btn-primary">Visualizar</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card" >
+					<div class="card-body">
+						<h5 class="card-title">Livros</h5>
+						<p class="card-text">Mostra todos os livros da casa do código</p>
+						<a href="/livros" class="btn btn-primary">Visualizar</a>
 					</div>
 				</div>
 			</div>

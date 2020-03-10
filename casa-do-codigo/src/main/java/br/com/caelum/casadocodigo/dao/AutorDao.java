@@ -104,10 +104,7 @@ public class AutorDao {
 	}
 
 	private Autor populaAutor(ResultSet rs) throws SQLException {
-
-		Autor autor = new Autor(rs.getString("nome"), rs.getString("resumo"));
-		autor.setId(rs.getLong("id"));
-
+		Autor autor = new Autor(rs.getLong("id"), rs.getString("nome"), rs.getString("resumo"));
 		return autor;
 	}
 
